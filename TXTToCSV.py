@@ -1,27 +1,31 @@
+import os
 import csv
-import pandas as pd
 import numpy as np
+import pandas as pd
+
+
 
 np.set_printoptions(suppress=True, precision=4)
 
-arquivo16x6_8000 =   "data\\8437.5rpm\\16x6\\8000rpm.txt"
-arquivo16x6_9000 =   "data\\8437.5rpm\\16x6\\9000rpm.txt"
-arquivo16x8_8000 =   "data\\8437.5rpm\\16x8\\8000rpm.txt"
-arquivo16x8_9000 =   "data\\8437.5rpm\\16x8\\9000rpm.txt"
-arquivo16x10_8000 = "data\\8437.5rpm\\16x10\\8000rpm.txt"
-arquivo16x10_9000 = "data\\8437.5rpm\\16x10\\9000rpm.txt"
+base = "C:\\Users\\PEDRO\\Desktop\\Interpolação de Dados\\data"
 
-arquivos = [arquivo16x6_8000, arquivo16x6_9000,
-            arquivo16x8_8000, arquivo16x8_9000,
-            arquivo16x10_8000, arquivo16x10_9000]
+arquivosCsv = []
+arquivosTxt = []
+
+for base, pastas, textos in os.walk(base):
+    for texto in textos:
+        if texto.endswith(".txt"):
+            caminho_completo = os.path.join(base, texto)
+            arquivosTxt.append(caminho_completo)
+
 
 arquivosCsv = []
 titulos = 0
-for arquivo in arquivos:
+for arquivo in arquivosTxt:
     arquivosCsv.append(f"{arquivo[:-3]}csv")
 
-for i in range(len(arquivos)):
-    with open(arquivos[i], "r", encoding="utf-8") as rpm8:
+for i in range(len(arquivosTxt)):
+    with open(arquivosTxt[i], "r", encoding="utf-8") as rpm8:
         dados = rpm8.read().splitlines()    
         titulos = dados[0].split()
 
